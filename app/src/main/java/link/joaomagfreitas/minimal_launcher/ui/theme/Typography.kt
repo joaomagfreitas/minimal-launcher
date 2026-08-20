@@ -6,6 +6,8 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import link.joaomagfreitas.minimal_launcher.R
 
@@ -54,7 +56,11 @@ val Typography = Typography(
         fontFamily = hankenGroteskFontFamily
     ),
     labelSmall = TextStyle(
-        fontFamily = hankenGroteskFontFamily
+        fontFamily = hankenGroteskFontFamily,
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Medium,
+        lineHeight = 16.sp,
+        letterSpacing = 0.05.em
     ),
     labelMedium = TextStyle(
         fontFamily = hankenGroteskFontFamily
@@ -69,7 +75,11 @@ val Typography = Typography(
         fontFamily = hankenGroteskFontFamily
     ),
     headlineLarge = TextStyle(
-        fontFamily = hankenGroteskFontFamily
+        fontFamily = hankenGroteskFontFamily,
+        fontSize = 48.sp,
+        fontWeight = FontWeight.Light,
+        lineHeight = 56.sp,
+        letterSpacing = (-0.02).em,
     ),
     displaySmall = TextStyle(
         fontFamily = hankenGroteskFontFamily
