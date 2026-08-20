@@ -1,0 +1,206 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Launcher Edit Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#303031",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary": "#c8c6c5",
+                        "surface-container-low": "#1b1c1c",
+                        "surface": "#121414",
+                        "surface-tint": "#c6c6c7",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#343535",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#383939",
+                        "inverse-primary": "#5d5f5f",
+                        "on-background": "#e3e2e2",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#454747",
+                        "tertiary-fixed": "#e2e2e2",
+                        "secondary-fixed": "#e5e2e1",
+                        "error": "#ffb4ab",
+                        "on-secondary": "#313030",
+                        "background": "#121414",
+                        "inverse-surface": "#e3e2e2",
+                        "surface-container": "#1f2020",
+                        "on-secondary-container": "#b7b5b4",
+                        "secondary-container": "#474746",
+                        "on-surface-variant": "#c4c7c8",
+                        "primary-fixed": "#e2e2e2",
+                        "surface-dim": "#121414",
+                        "outline": "#8e9192",
+                        "surface-variant": "#343535",
+                        "primary-container": "#e2e2e2",
+                        "on-surface": "#e3e2e2",
+                        "on-primary": "#2f3131",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-primary-container": "#636565",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "outline-variant": "#444748",
+                        "on-tertiary": "#2f3131",
+                        "primary": "#ffffff",
+                        "surface-container-high": "#292a2a",
+                        "primary-fixed-dim": "#c6c6c7",
+                        "tertiary-container": "#e2e2e2",
+                        "on-tertiary-container": "#636565",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0d0e0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-list": "1.5rem",
+                        "margin-page": "2rem",
+                        "stack-lg": "3rem",
+                        "stack-sm": "0.5rem",
+                        "stack-md": "1rem"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col font-sans antialiased selection:bg-primary selection:text-on-primary">
+<!-- Top App Bar -->
+<header class="flex justify-between items-start w-full px-margin-page pt-stack-lg max-w-[600px] mx-auto bg-surface text-primary transition-opacity duration-200">
+<div>
+<h1 class="font-headline-lg text-headline-lg font-light tracking-tight">12:45</h1>
+<div class="font-label-sm text-label-sm text-outline uppercase tracking-widest mt-1">Tuesday, Oct 24</div>
+</div>
+<button aria-label="Close Edit Mode" class="text-primary hover:bg-surface-container rounded-full p-2 transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-[600px] mx-auto px-margin-page overflow-y-auto mt-stack-lg pb-stack-lg no-scrollbar">
+<!-- App List (Edit Mode) -->
+<ul class="flex flex-col gap-gutter-list">
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Phone" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Phone</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Messages" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Messages</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Camera" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Camera</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Browser" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Browser</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Maps" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Maps</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<li class="flex items-center justify-between group cursor-pointer transition-colors duration-200 p-2 -mx-2 rounded-lg hover:bg-surface-container-high">
+<div class="flex items-center gap-4">
+<button aria-label="Remove Spotify" class="text-error opacity-70 hover:opacity-100 transition-opacity p-1">
+<span class="material-symbols-outlined" data-icon="remove_circle">remove_circle</span>
+</button>
+<span class="font-body-lg text-body-lg text-primary group-hover:text-primary transition-colors">Spotify</span>
+</div>
+<button aria-label="Drag to reorder" class="text-outline hover:text-primary cursor-grab active:cursor-grabbing p-1">
+<span class="material-symbols-outlined" data-icon="drag_handle">drag_handle</span>
+</button>
+</li>
+<!-- Add App Action -->
+<li class="flex items-center group cursor-pointer transition-colors duration-200 p-2 -mx-2 mt-4 rounded-lg hover:bg-surface-container-high border border-dashed border-outline-variant">
+<div class="flex items-center gap-4 w-full justify-center text-outline group-hover:text-primary transition-colors py-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span class="font-body-lg text-body-lg">Add App</span>
+</div>
+</li>
+</ul>
+</main>
+<!-- Bottom Nav Bar (Action Bar for Edit Mode) -->
+
+<!-- Web Desktop Action Bar -->
+
+<style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+
+
+
+
+</body></html>
