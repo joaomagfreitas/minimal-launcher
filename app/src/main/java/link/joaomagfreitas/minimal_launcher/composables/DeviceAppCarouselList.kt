@@ -82,7 +82,7 @@ fun DeviceAppCarouselList(
                         headlineContent = {
                             Text(
                                 text = apps[idx].label,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = style
                             )
                         },
                         leadingContent = if (editMode) {
