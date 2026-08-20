@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Minimal Launcher</string>
+    <string name="content_description_delete_app_from_list">This action removes the app from the list</string>
+    <string name="content_description_drag_app_in_list">This action drags the app in the list to reorder</string>
 </resources>
