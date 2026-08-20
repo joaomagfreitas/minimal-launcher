@@ -1,11 +1,13 @@
 package link.joaomagfreitas.minimal_launcher.repositories
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
 
 interface DeviceRepository {
     suspend fun queryApps(): List<DeviceAppModel>
+    suspend fun openApp(app: DeviceAppModel)
 }
 
 class IpcDeviceRepository(
@@ -26,5 +28,16 @@ class IpcDeviceRepository(
                     activityName = info.activityInfo.name,
                 )
             }
+    }
+
+    override suspend fun openApp(app: DeviceAppModel) {
+        val intent = Intent().apply {
+            component = ComponentName(
+                app.packageName,
+                app.activityName
+            )
+        }
+
+        context.startActivity(intent)
     }
 }
