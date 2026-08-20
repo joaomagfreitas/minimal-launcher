@@ -33,4 +33,5 @@
         </activity>
     </application>
 
+    <queries />
 </manifest>
