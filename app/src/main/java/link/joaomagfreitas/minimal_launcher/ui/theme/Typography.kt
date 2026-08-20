@@ -42,9 +42,9 @@ val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = hankenGroteskFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp,
+        fontSize = 18.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.01.em,
     ),
     titleSmall = TextStyle(
         fontFamily = hankenGroteskFontFamily
