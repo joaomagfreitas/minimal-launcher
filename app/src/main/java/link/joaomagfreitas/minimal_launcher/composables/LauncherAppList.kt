@@ -33,12 +33,13 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 @Composable
 fun LauncherAppList(
     items: List<LauncherAppListItemModel>,
-    onOpen: (app: LauncherAppListItemModel) -> Unit,
-    onUpdate: (apps: List<LauncherAppListItemModel>) -> Unit,
+    onOpen: (item: LauncherAppListItemModel) -> Unit,
+    onUpdate: (items: List<LauncherAppListItemModel>) -> Unit,
+    onRequestEditMode: () -> Unit,
     editMode: Boolean = false,
     itemsCap: Int = 6,
 ) {
-    val items = remember {
+    val localItems = remember(items) {
         items.toMutableStateList()
     }
 
@@ -47,19 +48,19 @@ fun LauncherAppList(
     val reorderableListState = rememberReorderableLazyListState(
         lazyListState = state
     ) { from, to ->
-        items.add(to.index, items.removeAt(from.index))
+        localItems.add(to.index, localItems.removeAt(from.index))
 
         haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
     }
 
     val style = MaterialTheme.typography.bodyLarge
-    val listItemsLimit = if (items.count() >= itemsCap) itemsCap else items.count()
+    val listItemsLimit = if (localItems.count() >= itemsCap) itemsCap else localItems.count()
     val listTilePaddingHeight = 24 * 2
     val labelHeight = style.fontSize.value
     val itemsSpacing = 32
 
-    LaunchedEffect(items) {
-        onUpdate(items)
+    LaunchedEffect(localItems) {
+        onUpdate(localItems)
     }
 
     LazyColumn(
@@ -70,14 +71,14 @@ fun LauncherAppList(
         verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp)
     ) {
         items(
-            count = items.count(),
-            key = { items[it].hashCode() },
+            count = localItems.count(),
+            key = { localItems[it].hashCode() },
             itemContent = { idx ->
                 ReorderableItem(
                     state = reorderableListState,
-                    key = items[idx].hashCode()
+                    key = localItems[idx].hashCode()
                 ) {
-                    val item = items[idx]
+                    val item = localItems[idx]
 
                     ListItem(
                         headlineContent = {
@@ -91,10 +92,10 @@ fun LauncherAppList(
                                 if (item.enabled)
                                     IconButton(
                                         onClick = {
-                                            items.removeAt(idx)
-                                            items.add(
+                                            localItems.removeAt(idx)
+                                            localItems.add(
                                                 item.copy(
-                                                    order = items.count(),
+                                                    order = localItems.count(),
                                                     enabled = false
                                                 )
                                             )
@@ -109,7 +110,7 @@ fun LauncherAppList(
                                 else
                                     IconButton(
                                         onClick = {
-                                            items[idx] = item.copy(
+                                            localItems[idx] = item.copy(
                                                 enabled = true
                                             )
                                         }
@@ -131,19 +132,24 @@ fun LauncherAppList(
                                 )
                             }
                         } else null,
-                        modifier = if (editMode)
-                            Modifier.longPressDraggableHandle(
+                        modifier = Modifier
+                            .longPressDraggableHandle(
                                 onDragStarted = {
+                                    if (!editMode) {
+                                        onRequestEditMode()
+                                    }
+
                                     haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
                                 },
                                 onDragStopped = {
                                     haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
                                 },
-                            ) else Modifier
+                            )
                             .clickable(
+                                enabled = !editMode,
                                 onClick = {
                                     if (!editMode) {
-                                        onOpen(items[idx])
+                                        onOpen(localItems[idx])
                                     }
                                 }
                             )
@@ -174,7 +180,8 @@ private fun LauncherAppListPreview() {
             items = apps,
             editMode = true,
             onOpen = {},
-            onUpdate = {}
+            onUpdate = {},
+            onRequestEditMode = {}
         )
     }
 }

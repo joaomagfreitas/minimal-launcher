@@ -1,8 +1,11 @@
 package link.joaomagfreitas.minimal_launcher.repositories
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.content.pm.PackageManager
 import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
 
 interface DeviceRepository {
@@ -20,8 +23,9 @@ class IpcDeviceRepository(
 
         return context
             .packageManager
-            .queryIntentActivities(intent, 0)
+            .queryIntentActivities(intent, PackageManager.MATCH_ALL)
             .map { info ->
+                println(info)
                 DeviceAppModel(
                     label = info.loadLabel(context.packageManager).toString(),
                     packageName = info.activityInfo.packageName,
@@ -34,8 +38,12 @@ class IpcDeviceRepository(
         val intent = Intent().apply {
             component = ComponentName(
                 app.packageName,
-                app.activityName
+                app.activityName,
             )
+
+            if(context !is Activity) {
+                setFlags(FLAG_ACTIVITY_NEW_TASK)
+            }
         }
 
         context.startActivity(intent)
