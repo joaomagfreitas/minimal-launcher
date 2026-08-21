@@ -1,14 +1,12 @@
 package link.joaomagfreitas.minimal_launcher.usecases
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
 import link.joaomagfreitas.minimal_launcher.repositories.DeviceRepository
 
-class OpenApp(
+class GetDeviceAppList(
     private val repository: DeviceRepository,
 ) {
-    suspend operator fun invoke(app: DeviceAppModel) {
-        repository.openApp(app)
+    suspend operator fun invoke(): List<DeviceAppModel> {
+        return repository.queryApps()
     }
 }
