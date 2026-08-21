@@ -2,8 +2,14 @@ package link.joaomagfreitas.minimal_launcher.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import link.joaomagfreitas.minimal_launcher.di.locator
 import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
 import link.joaomagfreitas.minimal_launcher.models.LauncherAppListItemModel
 import link.joaomagfreitas.minimal_launcher.state.LauncherAppListState
@@ -19,22 +25,31 @@ class LauncherAppListViewModel(
     private val updateLauncherAppList: UpdateLauncherAppList,
     private val scope: CoroutineScope,
 ) : ViewModel(scope) {
-    val state = mutableStateOf<LauncherAppListState>(
+    val state = MutableStateFlow<LauncherAppListState>(
         LauncherAppListState.Loading(listOf())
     )
+
+    init {
+        synchronize()
+    }
 
     fun load() {
         scope.launch {
             val appListResult = runCatching { getLauncherAppList() }
             if (appListResult.isSuccess) {
-                state.value = LauncherAppListState.Loaded(appListResult.getOrThrow())
+                state.emit(
+                    LauncherAppListState.Loaded(appListResult.getOrThrow())
+                )
+
                 synchronize()
                 return@launch
             }
 
-            state.value = LauncherAppListState.Failure(
-                items = state.value.items,
-                error = Error(appListResult.exceptionOrNull())
+            state.emit(
+                LauncherAppListState.Failure(
+                    items = state.value.items,
+                    error = Error(appListResult.exceptionOrNull())
+                )
             )
         }
     }
@@ -64,14 +79,19 @@ class LauncherAppListViewModel(
                     )
                 }.sortedBy { it.order }
 
-                state.value = LauncherAppListState.Synchronized(synchronizedItems)
+                state.emit(
+                    LauncherAppListState.Synchronized(synchronizedItems)
+                )
+
                 update(items)
                 return@launch
             }
 
-            state.value = LauncherAppListState.Failure(
-                items = state.value.items,
-                error = Error(deviceAppListResult.exceptionOrNull())
+            state.emit(
+                LauncherAppListState.Failure(
+                    items = state.value.items,
+                    error = Error(deviceAppListResult.exceptionOrNull())
+                )
             )
         }
     }
@@ -79,6 +99,20 @@ class LauncherAppListViewModel(
     fun open(app: DeviceAppModel) {
         scope.launch {
             openApp(app)
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                LauncherAppListViewModel(
+                    openApp = locator.get(),
+                    getDeviceAppList = locator.get(),
+                    getLauncherAppList = locator.get(),
+                    updateLauncherAppList = locator.get(),
+                    scope = CoroutineScope(Dispatchers.Default)
+                )
+            }
         }
     }
 }

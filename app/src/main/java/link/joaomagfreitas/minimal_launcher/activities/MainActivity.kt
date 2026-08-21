@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import link.joaomagfreitas.minimal_launcher.composables.AppScaffold
-import link.joaomagfreitas.minimal_launcher.composables.DateTimeDisplay
+import link.joaomagfreitas.minimal_launcher.screens.LauncherScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,9 +12,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            AppScaffold { innerPadding ->
-                DateTimeDisplay()
-            }
+            LauncherScreen()
         }
     }
 }
