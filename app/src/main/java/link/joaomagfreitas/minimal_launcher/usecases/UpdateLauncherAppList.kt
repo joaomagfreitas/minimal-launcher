@@ -6,7 +6,7 @@ import link.joaomagfreitas.minimal_launcher.repositories.LauncherRepository
 class UpdateLauncherAppList(
     private val repository: LauncherRepository
 ) {
-    suspend fun invoke(items: List<LauncherAppListItemModel>) {
+    suspend operator fun invoke(items: List<LauncherAppListItemModel>) {
         repository.updateAppList(items)
     }
 }
