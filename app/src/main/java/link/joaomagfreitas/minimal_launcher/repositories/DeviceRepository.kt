@@ -25,7 +25,6 @@ class IpcDeviceRepository(
             .packageManager
             .queryIntentActivities(intent, PackageManager.MATCH_ALL)
             .map { info ->
-                println(info)
                 DeviceAppModel(
                     label = info.loadLabel(context.packageManager).toString(),
                     packageName = info.activityInfo.packageName,

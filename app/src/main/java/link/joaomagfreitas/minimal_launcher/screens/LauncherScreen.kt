@@ -25,8 +25,6 @@ fun LauncherScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var editMode by remember { mutableStateOf(false) }
 
-    println(editMode)
-
     AppScaffold {
         Column(
             verticalArrangement = Arrangement.spacedBy(32.dp)
@@ -44,7 +42,7 @@ fun LauncherScreen(
                 items = state.items,
                 onOpen = { viewModel.open(it.app) },
                 onUpdate = { viewModel.update(it) },
-                onRequestEditMode = { println("yo?"); editMode = true }
+                onRequestEditMode = { editMode = true }
             )
         }
     }
