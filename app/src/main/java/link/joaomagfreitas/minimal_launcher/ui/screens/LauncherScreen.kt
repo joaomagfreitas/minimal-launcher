@@ -18,23 +18,24 @@ import link.joaomagfreitas.minimal_launcher.ui.viewmodels.LauncherAppListViewMod
 
 @Composable
 fun LauncherScreen(
-    viewModel: LauncherAppListViewModel = viewModel(
-        factory = LauncherAppListViewModel.Factory
-    )
+    viewModel: LauncherAppListViewModel =
+        viewModel(
+            factory = LauncherAppListViewModel.Factory,
+        ),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var editMode by remember { mutableStateOf(false) }
 
     AppScaffold {
         Column(
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             TopBar(
                 editMode = editMode,
                 onOpenSettings = {},
                 onExitEditMode = {
                     editMode = false
-                }
+                },
             )
 
             LauncherAppList(
@@ -42,7 +43,7 @@ fun LauncherScreen(
                 items = state.items,
                 onOpen = { viewModel.open(it.app) },
                 onUpdate = { viewModel.update(it) },
-                onRequestEditMode = { editMode = true }
+                onRequestEditMode = { editMode = true },
             )
         }
     }

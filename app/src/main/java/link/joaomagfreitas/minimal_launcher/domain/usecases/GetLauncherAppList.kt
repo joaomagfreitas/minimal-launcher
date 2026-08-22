@@ -8,7 +8,5 @@ class GetLauncherAppList(
     private val deviceRepository: DeviceRepository,
     private val launcherRepository: LauncherRepository,
 ) {
-    suspend operator fun invoke(): List<LauncherAppListItemModel> {
-        return launcherRepository.getAppList()
-    }
+    suspend operator fun invoke(): List<LauncherAppListItemModel> = launcherRepository.getAppList()
 }

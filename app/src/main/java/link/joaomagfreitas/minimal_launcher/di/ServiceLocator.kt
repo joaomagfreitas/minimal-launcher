@@ -10,8 +10,8 @@ class ServiceLocator<T> {
     }
 
     inline fun <reified S : T> lookup(): S? = container[S::class.java] as S?
+
     inline fun <reified S : T> get() = lookup<S>()!!
 }
-
 
 val locator = ServiceLocator<Any>()

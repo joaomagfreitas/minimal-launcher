@@ -20,28 +20,28 @@ fun TopBar(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         DateTimeDisplay()
-        if (editMode)
+        if (editMode) {
             IconButton(
-                onClick = onExitEditMode
+                onClick = onExitEditMode,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.close_24px),
-                    contentDescription = stringResource(R.string.content_description_exit_edit_mode)
+                    contentDescription = stringResource(R.string.content_description_exit_edit_mode),
                 )
             }
-        else
+        } else {
             IconButton(
-                onClick = onOpenSettings
+                onClick = onOpenSettings,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.settings_24px),
-                    contentDescription = stringResource(R.string.content_description_exit_edit_mode)
+                    contentDescription = stringResource(R.string.content_description_exit_edit_mode),
                 )
             }
+        }
     }
 }
 
@@ -51,8 +51,7 @@ fun TopBarPreview() {
     AppScaffold {
         TopBar(
             onOpenSettings = {},
-            onExitEditMode = {}
+            onExitEditMode = {},
         )
     }
-
 }

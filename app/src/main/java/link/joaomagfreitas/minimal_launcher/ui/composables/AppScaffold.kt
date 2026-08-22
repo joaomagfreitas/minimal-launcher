@@ -19,13 +19,14 @@ fun AppScaffold(
 ) {
     MinimalLauncherTheme {
         Scaffold(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) { innerPadding ->
             Surface(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .padding(defaultPadding),
-                content = content
+                modifier =
+                    Modifier
+                        .padding(innerPadding)
+                        .padding(defaultPadding),
+                content = content,
             )
         }
     }
@@ -35,7 +36,7 @@ fun AppScaffold(
 @Preview
 fun AppScaffoldPreview() {
     AppScaffold(
-        defaultPadding = PaddingValues()
+        defaultPadding = PaddingValues(),
     ) {
         Text("Hello World")
     }

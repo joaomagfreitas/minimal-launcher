@@ -8,9 +8,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import link.joaomagfreitas.minimal_launcher.di.locator
 import link.joaomagfreitas.minimal_launcher.data.models.DeviceAppModel
 import link.joaomagfreitas.minimal_launcher.data.models.LauncherAppListItemModel
+import link.joaomagfreitas.minimal_launcher.di.locator
 import link.joaomagfreitas.minimal_launcher.domain.state.LauncherAppListState
 import link.joaomagfreitas.minimal_launcher.domain.usecases.GetDeviceAppList
 import link.joaomagfreitas.minimal_launcher.domain.usecases.GetLauncherAppList
@@ -24,9 +24,10 @@ class LauncherAppListViewModel(
     private val updateLauncherAppList: UpdateLauncherAppList,
     private val scope: CoroutineScope,
 ) : ViewModel(scope) {
-    val state = MutableStateFlow<LauncherAppListState>(
-        LauncherAppListState.Loading(listOf())
-    )
+    val state =
+        MutableStateFlow<LauncherAppListState>(
+            LauncherAppListState.Loading(listOf()),
+        )
 
     init {
         synchronize()
@@ -37,7 +38,7 @@ class LauncherAppListViewModel(
             val appListResult = runCatching { getLauncherAppList() }
             if (appListResult.isSuccess) {
                 state.emit(
-                    LauncherAppListState.Loaded(appListResult.getOrThrow())
+                    LauncherAppListState.Loaded(appListResult.getOrThrow()),
                 )
 
                 synchronize()
@@ -47,8 +48,8 @@ class LauncherAppListViewModel(
             state.emit(
                 LauncherAppListState.Failure(
                     items = state.value.items,
-                    error = Error(appListResult.exceptionOrNull())
-                )
+                    error = Error(appListResult.exceptionOrNull()),
+                ),
             )
         }
     }
@@ -65,21 +66,24 @@ class LauncherAppListViewModel(
         scope.launch {
             val deviceAppListResult = runCatching { getDeviceAppList() }
             if (deviceAppListResult.isSuccess) {
-                val synchronizedItems = deviceAppListResult.getOrThrow().mapIndexed { idx, app ->
-                    val existingItem = items.find { it.app == app }
-                    if (existingItem != null) {
-                        return@mapIndexed existingItem
-                    }
+                val synchronizedItems =
+                    deviceAppListResult
+                        .getOrThrow()
+                        .mapIndexed { idx, app ->
+                            val existingItem = items.find { it.app == app }
+                            if (existingItem != null) {
+                                return@mapIndexed existingItem
+                            }
 
-                    return@mapIndexed LauncherAppListItemModel(
-                        order = -1,
-                        enabled = true,
-                        app = app
-                    )
-                }.sortedBy { it.order }
+                            return@mapIndexed LauncherAppListItemModel(
+                                order = -1,
+                                enabled = true,
+                                app = app,
+                            )
+                        }.sortedBy { it.order }
 
                 state.emit(
-                    LauncherAppListState.Synchronized(synchronizedItems)
+                    LauncherAppListState.Synchronized(synchronizedItems),
                 )
 
                 update(items)
@@ -89,8 +93,8 @@ class LauncherAppListViewModel(
             state.emit(
                 LauncherAppListState.Failure(
                     items = state.value.items,
-                    error = Error(deviceAppListResult.exceptionOrNull())
-                )
+                    error = Error(deviceAppListResult.exceptionOrNull()),
+                ),
             )
         }
     }
@@ -102,16 +106,17 @@ class LauncherAppListViewModel(
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                LauncherAppListViewModel(
-                    openApp = locator.get(),
-                    getDeviceAppList = locator.get(),
-                    getLauncherAppList = locator.get(),
-                    updateLauncherAppList = locator.get(),
-                    scope = CoroutineScope(Dispatchers.Default)
-                )
+        val Factory: ViewModelProvider.Factory =
+            viewModelFactory {
+                initializer {
+                    LauncherAppListViewModel(
+                        openApp = locator.get(),
+                        getDeviceAppList = locator.get(),
+                        getLauncherAppList = locator.get(),
+                        updateLauncherAppList = locator.get(),
+                        scope = CoroutineScope(Dispatchers.Default),
+                    )
+                }
             }
-        }
     }
 }

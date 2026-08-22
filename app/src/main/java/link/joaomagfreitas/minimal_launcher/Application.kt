@@ -1,9 +1,9 @@
 package link.joaomagfreitas.minimal_launcher
 
 import android.app.Application
-import link.joaomagfreitas.minimal_launcher.di.locator
 import link.joaomagfreitas.minimal_launcher.data.repositories.InternalStorageLauncherRepository
 import link.joaomagfreitas.minimal_launcher.data.repositories.IpcDeviceRepository
+import link.joaomagfreitas.minimal_launcher.di.locator
 import link.joaomagfreitas.minimal_launcher.domain.usecases.GetDeviceAppList
 import link.joaomagfreitas.minimal_launcher.domain.usecases.GetLauncherAppList
 import link.joaomagfreitas.minimal_launcher.domain.usecases.OpenApp

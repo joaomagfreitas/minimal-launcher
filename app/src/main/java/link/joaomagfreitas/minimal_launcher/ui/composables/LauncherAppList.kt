@@ -39,19 +39,21 @@ fun LauncherAppList(
     editMode: Boolean = false,
     itemsCap: Int = 6,
 ) {
-    val localItems = remember(items) {
-        items.toMutableStateList()
-    }
+    val localItems =
+        remember(items) {
+            items.toMutableStateList()
+        }
 
     val haptic = LocalHapticFeedback.current
     val state = rememberLazyListState()
-    val reorderableListState = rememberReorderableLazyListState(
-        lazyListState = state
-    ) { from, to ->
-        localItems.add(to.index, localItems.removeAt(from.index))
+    val reorderableListState =
+        rememberReorderableLazyListState(
+            lazyListState = state,
+        ) { from, to ->
+            localItems.add(to.index, localItems.removeAt(from.index))
 
-        haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-    }
+            haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        }
 
     val style = MaterialTheme.typography.bodyLarge
     val listItemsLimit = if (localItems.count() >= itemsCap) itemsCap else localItems.count()
@@ -65,10 +67,11 @@ fun LauncherAppList(
 
     LazyColumn(
         state = state,
-        modifier = Modifier
-            .height(((labelHeight + listTilePaddingHeight) * listItemsLimit + (itemsSpacing * listItemsLimit - 1)).dp)
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp)
+        modifier =
+            Modifier
+                .height(((labelHeight + listTilePaddingHeight) * listItemsLimit + (itemsSpacing * listItemsLimit - 1)).dp)
+                .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp),
     ) {
         items(
             count = localItems.count(),
@@ -76,7 +79,7 @@ fun LauncherAppList(
             itemContent = { idx ->
                 ReorderableItem(
                     state = reorderableListState,
-                    key = localItems[idx].hashCode()
+                    key = localItems[idx].hashCode(),
                 ) {
                     val item = localItems[idx]
 
@@ -84,78 +87,86 @@ fun LauncherAppList(
                         headlineContent = {
                             Text(
                                 text = item.app.label,
-                                style = style
+                                style = style,
                             )
                         },
-                        leadingContent = if (editMode) {
-                            {
-                                if (item.enabled)
-                                    IconButton(
-                                        onClick = {
-                                            localItems.removeAt(idx)
-                                            localItems.add(
-                                                item.copy(
-                                                    order = localItems.count(),
-                                                    enabled = false
+                        leadingContent =
+                            if (editMode) {
+                                {
+                                    if (item.enabled) {
+                                        IconButton(
+                                            onClick = {
+                                                localItems.removeAt(idx)
+                                                localItems.add(
+                                                    item.copy(
+                                                        order = localItems.count(),
+                                                        enabled = false,
+                                                    ),
                                                 )
+                                            },
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.do_not_disturb_on_24px),
+                                                contentDescription = stringResource(id = R.string.content_description_delete_app_from_list),
+                                                tint = danger,
                                             )
                                         }
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.do_not_disturb_on_24px),
-                                            contentDescription = stringResource(id = R.string.content_description_delete_app_from_list),
-                                            tint = danger
-                                        )
-                                    }
-                                else
-                                    IconButton(
-                                        onClick = {
-                                            localItems[idx] = item.copy(
-                                                enabled = true
+                                    } else {
+                                        IconButton(
+                                            onClick = {
+                                                localItems[idx] =
+                                                    item.copy(
+                                                        enabled = true,
+                                                    )
+                                            },
+                                        ) {
+                                            Icon(
+                                                painter = painterResource(R.drawable.add_circle_24px),
+                                                contentDescription = stringResource(id = R.string.content_description_add_app_to_list),
+                                                tint = neutral,
                                             )
                                         }
-                                    ) {
-                                        Icon(
-                                            painter = painterResource(R.drawable.add_circle_24px),
-                                            contentDescription = stringResource(id = R.string.content_description_add_app_to_list),
-                                            tint = neutral
-                                        )
-                                    }
-                            }
-                        } else null,
-                        trailingContent = if (editMode) {
-                            {
-                                Icon(
-                                    painter = painterResource(R.drawable.drag_handle_24px),
-                                    contentDescription = stringResource(id = R.string.content_description_drag_app_in_list),
-                                    tint = neutral
-                                )
-                            }
-                        } else null,
-                        modifier = Modifier
-                            .longPressDraggableHandle(
-                                onDragStarted = {
-                                    if (!editMode) {
-                                        onRequestEditMode()
-                                    }
-
-                                    haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                },
-                                onDragStopped = {
-                                    haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                },
-                            )
-                            .clickable(
-                                enabled = !editMode,
-                                onClick = {
-                                    if (!editMode) {
-                                        onOpen(localItems[idx])
                                     }
                                 }
-                            )
+                            } else {
+                                null
+                            },
+                        trailingContent =
+                            if (editMode) {
+                                {
+                                    Icon(
+                                        painter = painterResource(R.drawable.drag_handle_24px),
+                                        contentDescription = stringResource(id = R.string.content_description_drag_app_in_list),
+                                        tint = neutral,
+                                    )
+                                }
+                            } else {
+                                null
+                            },
+                        modifier =
+                            Modifier
+                                .longPressDraggableHandle(
+                                    onDragStarted = {
+                                        if (!editMode) {
+                                            onRequestEditMode()
+                                        }
+
+                                        haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                                    },
+                                    onDragStopped = {
+                                        haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                                    },
+                                ).clickable(
+                                    enabled = !editMode,
+                                    onClick = {
+                                        if (!editMode) {
+                                            onOpen(localItems[idx])
+                                        }
+                                    },
+                                ),
                     )
                 }
-            }
+            },
         )
     }
 }
@@ -163,17 +174,19 @@ fun LauncherAppList(
 @Composable
 @Preview
 private fun LauncherAppListPreview() {
-    val apps = List(20) { "App$it" }.mapIndexed { idx, lb ->
-        LauncherAppListItemModel(
-            order = idx,
-            enabled = idx % 2 == 0,
-            app = DeviceAppModel(
-                label = lb,
-                packageName = "",
-                activityName = ""
-            ),
-        )
-    }
+    val apps =
+        List(20) { "App$it" }.mapIndexed { idx, lb ->
+            LauncherAppListItemModel(
+                order = idx,
+                enabled = idx % 2 == 0,
+                app =
+                    DeviceAppModel(
+                        label = lb,
+                        packageName = "",
+                        activityName = "",
+                    ),
+            )
+        }
 
     AppScaffold {
         LauncherAppList(
@@ -181,7 +194,7 @@ private fun LauncherAppListPreview() {
             editMode = true,
             onOpen = {},
             onUpdate = {},
-            onRequestEditMode = {}
+            onRequestEditMode = {},
         )
     }
 }

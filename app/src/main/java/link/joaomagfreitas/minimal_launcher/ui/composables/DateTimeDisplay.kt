@@ -38,13 +38,13 @@ fun DateTimeDisplay() {
     return Column {
         Text(
             timeFormatter.format(date),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
 
         Text(
             dateFormatter.format(date).uppercase(),
             style = MaterialTheme.typography.labelSmall,
-            color = neutral
+            color = neutral,
         )
     }
 }

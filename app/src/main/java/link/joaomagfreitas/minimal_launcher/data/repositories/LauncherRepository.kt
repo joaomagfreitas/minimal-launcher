@@ -9,18 +9,18 @@ import java.io.File
 
 interface LauncherRepository {
     suspend fun getAppList(): List<LauncherAppListItemModel>
+
     suspend fun updateAppList(items: List<LauncherAppListItemModel>)
 }
 
 class InternalStorageLauncherRepository(
     private val context: Context,
 ) : LauncherRepository {
-    override suspend fun getAppList(): List<LauncherAppListItemModel> {
-        return withContext(Dispatchers.IO) {
+    override suspend fun getAppList(): List<LauncherAppListItemModel> =
+        withContext(Dispatchers.IO) {
             val file = appsListJsonFile
             Json.decodeFromString(file.readText())
         }
-    }
 
     override suspend fun updateAppList(items: List<LauncherAppListItemModel>) {
         withContext(Dispatchers.IO) {

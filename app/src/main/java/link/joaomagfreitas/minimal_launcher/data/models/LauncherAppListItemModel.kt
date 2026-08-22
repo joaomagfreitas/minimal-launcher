@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class LauncherAppListItemModel(
     val order: Int,
     val enabled: Boolean,
-    val app: DeviceAppModel
+    val app: DeviceAppModel,
 )

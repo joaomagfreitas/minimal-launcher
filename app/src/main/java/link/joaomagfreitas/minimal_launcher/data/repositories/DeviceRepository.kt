@@ -10,6 +10,7 @@ import link.joaomagfreitas.minimal_launcher.data.models.DeviceAppModel
 
 interface DeviceRepository {
     suspend fun queryApps(): List<DeviceAppModel>
+
     suspend fun openApp(app: DeviceAppModel)
 }
 
@@ -17,9 +18,10 @@ class IpcDeviceRepository(
     private val context: Context,
 ) : DeviceRepository {
     override suspend fun queryApps(): List<DeviceAppModel> {
-        val intent = Intent(Intent.ACTION_MAIN).apply {
-            addCategory(Intent.CATEGORY_LAUNCHER)
-        }
+        val intent =
+            Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }
 
         return context
             .packageManager
@@ -34,16 +36,18 @@ class IpcDeviceRepository(
     }
 
     override suspend fun openApp(app: DeviceAppModel) {
-        val intent = Intent().apply {
-            component = ComponentName(
-                app.packageName,
-                app.activityName,
-            )
+        val intent =
+            Intent().apply {
+                component =
+                    ComponentName(
+                        app.packageName,
+                        app.activityName,
+                    )
 
-            if(context !is Activity) {
-                setFlags(FLAG_ACTIVITY_NEW_TASK)
+                if (context !is Activity) {
+                    setFlags(FLAG_ACTIVITY_NEW_TASK)
+                }
             }
-        }
 
         context.startActivity(intent)
     }
