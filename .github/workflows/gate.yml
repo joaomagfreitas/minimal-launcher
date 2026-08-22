@@ -1,0 +1,40 @@
+name: Gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Run lint
+        run: tools/run-lint
+
+      - name: Run format
+        run: tools/run-format
+
+      - name: Run unit tests
+        run: tools/run-unit
+
+      - name: Upload generated artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          retention-days: 1
+          path: |
+            **/build/reports/**
+            **/build/test-results/**
+            **/build/outputs/androidTest-results/**
+          if-no-files-found: ignore

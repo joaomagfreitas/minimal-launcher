@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Android lint
+./gradlew lint
+
+# Detekt
+./gradlew detekt
