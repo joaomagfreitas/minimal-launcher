@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-./gradlew ktlintFormat
+# Android lint
+./gradlew lint
+
+# Detekt
+./gradlew detekt
