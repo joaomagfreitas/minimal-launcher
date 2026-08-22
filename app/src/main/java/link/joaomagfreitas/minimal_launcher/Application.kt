@@ -10,18 +10,18 @@ import link.joaomagfreitas.minimal_launcher.domain.usecases.OpenApp
 import link.joaomagfreitas.minimal_launcher.domain.usecases.UpdateLauncherAppList
 
 class Application : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        register()
-    }
+  override fun onCreate() {
+    super.onCreate()
+    register()
+  }
 
-    private fun register() {
-        val deviceRepository = IpcDeviceRepository(applicationContext)
-        val launcherRepository = InternalStorageLauncherRepository(applicationContext)
+  private fun register() {
+    val deviceRepository = IpcDeviceRepository(applicationContext)
+    val launcherRepository = InternalStorageLauncherRepository(applicationContext)
 
-        locator.store(OpenApp(deviceRepository))
-        locator.store(GetDeviceAppList(deviceRepository))
-        locator.store(GetLauncherAppList(deviceRepository, launcherRepository))
-        locator.store(UpdateLauncherAppList(launcherRepository))
-    }
+    locator.store(OpenApp(deviceRepository))
+    locator.store(GetDeviceAppList(deviceRepository))
+    locator.store(GetLauncherAppList(deviceRepository, launcherRepository))
+    locator.store(UpdateLauncherAppList(launcherRepository))
+  }
 }

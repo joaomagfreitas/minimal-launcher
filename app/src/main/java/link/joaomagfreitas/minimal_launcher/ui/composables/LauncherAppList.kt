@@ -39,143 +39,151 @@ fun LauncherAppList(
     editMode: Boolean = false,
     itemsCap: Int = 6,
 ) {
-    val localItems =
-        remember(items) {
-            items.toMutableStateList()
-        }
+  val localItems = remember(items) { items.toMutableStateList() }
 
-    val haptic = LocalHapticFeedback.current
-    val state = rememberLazyListState()
-    val reorderableListState =
-        rememberReorderableLazyListState(
-            lazyListState = state,
-        ) { from, to ->
-            localItems.add(to.index, localItems.removeAt(from.index))
+  val haptic = LocalHapticFeedback.current
+  val state = rememberLazyListState()
+  val reorderableListState =
+      rememberReorderableLazyListState(
+          lazyListState = state,
+      ) { from, to ->
+        localItems.add(to.index, localItems.removeAt(from.index))
 
-            haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-        }
+        haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+      }
 
-    val style = MaterialTheme.typography.bodyLarge
-    val listItemsLimit = if (localItems.count() >= itemsCap) itemsCap else localItems.count()
-    val listTilePaddingHeight = 24 * 2
-    val labelHeight = style.fontSize.value
-    val itemsSpacing = 32
+  val style = MaterialTheme.typography.bodyLarge
+  val listItemsLimit = if (localItems.count() >= itemsCap) itemsCap else localItems.count()
+  val listTilePaddingHeight = 24 * 2
+  val labelHeight = style.fontSize.value
+  val itemsSpacing = 32
 
-    LaunchedEffect(localItems) {
-        onUpdate(localItems)
-    }
+  LaunchedEffect(localItems) { onUpdate(localItems) }
 
-    LazyColumn(
-        state = state,
-        modifier =
-            Modifier
-                .height(((labelHeight + listTilePaddingHeight) * listItemsLimit + (itemsSpacing * listItemsLimit - 1)).dp)
-                .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp),
-    ) {
-        items(
-            count = localItems.count(),
-            key = { localItems[it].hashCode() },
-            itemContent = { idx ->
-                ReorderableItem(
-                    state = reorderableListState,
-                    key = localItems[idx].hashCode(),
-                ) {
-                    val item = localItems[idx]
+  LazyColumn(
+      state = state,
+      modifier =
+          Modifier.height(
+                  ((labelHeight + listTilePaddingHeight) * listItemsLimit +
+                          (itemsSpacing * listItemsLimit - 1))
+                      .dp
+              )
+              .fillMaxWidth(),
+      verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp),
+  ) {
+    items(
+        count = localItems.count(),
+        key = { localItems[it].hashCode() },
+        itemContent = { idx ->
+          ReorderableItem(
+              state = reorderableListState,
+              key = localItems[idx].hashCode(),
+          ) {
+            val item = localItems[idx]
 
-                    ListItem(
-                        headlineContent = {
-                            Text(
-                                text = item.app.label,
-                                style = style,
+            ListItem(
+                headlineContent = {
+                  Text(
+                      text = item.app.label,
+                      style = style,
+                  )
+                },
+                leadingContent =
+                    if (editMode) {
+                      {
+                        if (item.enabled) {
+                          IconButton(
+                              onClick = {
+                                localItems.removeAt(idx)
+                                localItems.add(
+                                    item.copy(
+                                        order = localItems.count(),
+                                        enabled = false,
+                                    ),
+                                )
+                              },
+                          ) {
+                            Icon(
+                                painter = painterResource(R.drawable.do_not_disturb_on_24px),
+                                contentDescription =
+                                    stringResource(
+                                        id = R.string.content_description_delete_app_from_list
+                                    ),
+                                tint = danger,
                             )
-                        },
-                        leadingContent =
-                            if (editMode) {
-                                {
-                                    if (item.enabled) {
-                                        IconButton(
-                                            onClick = {
-                                                localItems.removeAt(idx)
-                                                localItems.add(
-                                                    item.copy(
-                                                        order = localItems.count(),
-                                                        enabled = false,
-                                                    ),
-                                                )
-                                            },
-                                        ) {
-                                            Icon(
-                                                painter = painterResource(R.drawable.do_not_disturb_on_24px),
-                                                contentDescription = stringResource(id = R.string.content_description_delete_app_from_list),
-                                                tint = danger,
-                                            )
-                                        }
-                                    } else {
-                                        IconButton(
-                                            onClick = {
-                                                localItems[idx] =
-                                                    item.copy(
-                                                        enabled = true,
-                                                    )
-                                            },
-                                        ) {
-                                            Icon(
-                                                painter = painterResource(R.drawable.add_circle_24px),
-                                                contentDescription = stringResource(id = R.string.content_description_add_app_to_list),
-                                                tint = neutral,
-                                            )
-                                        }
-                                    }
-                                }
-                            } else {
-                                null
-                            },
-                        trailingContent =
-                            if (editMode) {
-                                {
-                                    Icon(
-                                        painter = painterResource(R.drawable.drag_handle_24px),
-                                        contentDescription = stringResource(id = R.string.content_description_drag_app_in_list),
-                                        tint = neutral,
+                          }
+                        } else {
+                          IconButton(
+                              onClick = {
+                                localItems[idx] =
+                                    item.copy(
+                                        enabled = true,
                                     )
-                                }
-                            } else {
-                                null
-                            },
-                        modifier =
-                            Modifier
-                                .longPressDraggableHandle(
-                                    onDragStarted = {
-                                        if (!editMode) {
-                                            onRequestEditMode()
-                                        }
+                              },
+                          ) {
+                            Icon(
+                                painter = painterResource(R.drawable.add_circle_24px),
+                                contentDescription =
+                                    stringResource(
+                                        id = R.string.content_description_add_app_to_list
+                                    ),
+                                tint = neutral,
+                            )
+                          }
+                        }
+                      }
+                    } else {
+                      null
+                    },
+                trailingContent =
+                    if (editMode) {
+                      {
+                        Icon(
+                            painter = painterResource(R.drawable.drag_handle_24px),
+                            contentDescription =
+                                stringResource(id = R.string.content_description_drag_app_in_list),
+                            tint = neutral,
+                        )
+                      }
+                    } else {
+                      null
+                    },
+                modifier =
+                    Modifier.longPressDraggableHandle(
+                            onDragStarted = {
+                              if (!editMode) {
+                                onRequestEditMode()
+                              }
 
-                                        haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                    },
-                                    onDragStopped = {
-                                        haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                    },
-                                ).clickable(
-                                    enabled = !editMode,
-                                    onClick = {
-                                        if (!editMode) {
-                                            onOpen(localItems[idx])
-                                        }
-                                    },
-                                ),
-                    )
-                }
-            },
-        )
-    }
+                              haptic.performHapticFeedback(
+                                  HapticFeedbackType.GestureThresholdActivate
+                              )
+                            },
+                            onDragStopped = {
+                              haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                            },
+                        )
+                        .clickable(
+                            enabled = !editMode,
+                            onClick = {
+                              if (!editMode) {
+                                onOpen(localItems[idx])
+                              }
+                            },
+                        ),
+            )
+          }
+        },
+    )
+  }
 }
 
 @Composable
 @Preview
 private fun LauncherAppListPreview() {
-    val apps =
-        List(20) { "App$it" }.mapIndexed { idx, lb ->
+  val apps =
+      List(20) { "App$it" }
+          .mapIndexed { idx, lb ->
             LauncherAppListItemModel(
                 order = idx,
                 enabled = idx % 2 == 0,
@@ -186,15 +194,15 @@ private fun LauncherAppListPreview() {
                         activityName = "",
                     ),
             )
-        }
+          }
 
-    AppScaffold {
-        LauncherAppList(
-            items = apps,
-            editMode = true,
-            onOpen = {},
-            onUpdate = {},
-            onRequestEditMode = {},
-        )
-    }
+  AppScaffold {
+    LauncherAppList(
+        items = apps,
+        editMode = true,
+        onOpen = {},
+        onUpdate = {},
+        onRequestEditMode = {},
+    )
+  }
 }

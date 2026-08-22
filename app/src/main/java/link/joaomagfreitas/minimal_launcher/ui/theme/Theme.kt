@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun MinimalLauncherTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = monoFocusDarkColorScheme,
-        typography = Typography,
-        content = content,
-    )
+  MaterialTheme(
+      colorScheme = monoFocusDarkColorScheme,
+      typography = Typography,
+      content = content,
+  )
 }

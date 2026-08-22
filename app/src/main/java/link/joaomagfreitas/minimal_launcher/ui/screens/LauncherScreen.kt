@@ -23,34 +23,32 @@ fun LauncherScreen(
             factory = LauncherAppListViewModel.Factory,
         ),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    var editMode by remember { mutableStateOf(false) }
+  val state by viewModel.state.collectAsStateWithLifecycle()
+  var editMode by remember { mutableStateOf(false) }
 
-    AppScaffold {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(32.dp),
-        ) {
-            TopBar(
-                editMode = editMode,
-                onOpenSettings = {},
-                onExitEditMode = {
-                    editMode = false
-                },
-            )
+  AppScaffold {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(32.dp),
+    ) {
+      TopBar(
+          editMode = editMode,
+          onOpenSettings = {},
+          onExitEditMode = { editMode = false },
+      )
 
-            LauncherAppList(
-                editMode = editMode,
-                items = state.items,
-                onOpen = { viewModel.open(it.app) },
-                onUpdate = { viewModel.update(it) },
-                onRequestEditMode = { editMode = true },
-            )
-        }
+      LauncherAppList(
+          editMode = editMode,
+          items = state.items,
+          onOpen = { viewModel.open(it.app) },
+          onUpdate = { viewModel.update(it) },
+          onRequestEditMode = { editMode = true },
+      )
     }
+  }
 }
 
 @Composable
 @Preview
 fun LauncherScreenPreview() {
-    LauncherScreen()
+  LauncherScreen()
 }

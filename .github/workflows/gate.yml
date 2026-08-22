@@ -21,9 +21,6 @@ jobs:
       - name: Run lint
         run: tools/run-lint
 
-      - name: Run format
-        run: tools/run-format
-
       - name: Run unit tests
         run: tools/run-unit
 

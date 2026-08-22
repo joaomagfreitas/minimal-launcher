@@ -15,7 +15,11 @@ private val hankenGroteskFontFamily =
         Font(R.font.hanken_grotesk_black, FontWeight.Black),
         Font(R.font.hanken_grotesk_black_italic, FontWeight.Black, style = FontStyle.Italic),
         Font(R.font.hanken_grotesk_extra_bold, FontWeight.ExtraBold),
-        Font(R.font.hanken_grotesk_extra_bold_italic, FontWeight.ExtraBold, style = FontStyle.Italic),
+        Font(
+            R.font.hanken_grotesk_extra_bold_italic,
+            FontWeight.ExtraBold,
+            style = FontStyle.Italic,
+        ),
         Font(R.font.hanken_grotesk_bold, FontWeight.Bold),
         Font(R.font.hanken_grotesk_bold_italic, FontWeight.Bold, style = FontStyle.Italic),
         Font(R.font.hanken_grotesk_semi_bold, FontWeight.SemiBold),
@@ -27,7 +31,11 @@ private val hankenGroteskFontFamily =
         Font(R.font.hanken_grotesk_light, FontWeight.Light),
         Font(R.font.hanken_grotesk_light_italic, FontWeight.Light, style = FontStyle.Italic),
         Font(R.font.hanken_grotesk_extra_light, FontWeight.ExtraLight),
-        Font(R.font.hanken_grotesk_extra_light_italic, FontWeight.ExtraLight, style = FontStyle.Italic),
+        Font(
+            R.font.hanken_grotesk_extra_light_italic,
+            FontWeight.ExtraLight,
+            style = FontStyle.Italic,
+        ),
         Font(R.font.hanken_grotesk_thin, FontWeight.Thin),
         Font(R.font.hanken_grotesk_thin_italic, FontWeight.Thin, style = FontStyle.Italic),
     )

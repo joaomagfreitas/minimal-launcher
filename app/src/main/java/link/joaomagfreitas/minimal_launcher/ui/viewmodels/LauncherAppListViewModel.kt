@@ -24,99 +24,95 @@ class LauncherAppListViewModel(
     private val updateLauncherAppList: UpdateLauncherAppList,
     private val scope: CoroutineScope,
 ) : ViewModel(scope) {
-    val state =
-        MutableStateFlow<LauncherAppListState>(
-            LauncherAppListState.Loading(listOf()),
+  val state =
+      MutableStateFlow<LauncherAppListState>(
+          LauncherAppListState.Loading(listOf()),
+      )
+
+  init {
+    synchronize()
+  }
+
+  fun load() {
+    scope.launch {
+      val appListResult = runCatching { getLauncherAppList() }
+      if (appListResult.isSuccess) {
+        state.emit(
+            LauncherAppListState.Loaded(appListResult.getOrThrow()),
         )
 
-    init {
         synchronize()
+        return@launch
+      }
+
+      state.emit(
+          LauncherAppListState.Failure(
+              items = state.value.items,
+              error = Error(appListResult.exceptionOrNull()),
+          ),
+      )
     }
+  }
 
-    fun load() {
-        scope.launch {
-            val appListResult = runCatching { getLauncherAppList() }
-            if (appListResult.isSuccess) {
-                state.emit(
-                    LauncherAppListState.Loaded(appListResult.getOrThrow()),
-                )
+  fun update(items: List<LauncherAppListItemModel>) {
+    scope.launch { updateLauncherAppList(items) }
+  }
 
-                synchronize()
-                return@launch
-            }
+  fun synchronize() {
+    val items = state.value.items
 
-            state.emit(
-                LauncherAppListState.Failure(
-                    items = state.value.items,
-                    error = Error(appListResult.exceptionOrNull()),
-                ),
-            )
-        }
-    }
+    scope.launch {
+      val deviceAppListResult = runCatching { getDeviceAppList() }
+      if (deviceAppListResult.isSuccess) {
+        val synchronizedItems =
+            deviceAppListResult
+                .getOrThrow()
+                .mapIndexed { idx, app ->
+                  val existingItem = items.find { it.app == app }
+                  if (existingItem != null) {
+                    return@mapIndexed existingItem
+                  }
 
-    fun update(items: List<LauncherAppListItemModel>) {
-        scope.launch {
-            updateLauncherAppList(items)
-        }
-    }
-
-    fun synchronize() {
-        val items = state.value.items
-
-        scope.launch {
-            val deviceAppListResult = runCatching { getDeviceAppList() }
-            if (deviceAppListResult.isSuccess) {
-                val synchronizedItems =
-                    deviceAppListResult
-                        .getOrThrow()
-                        .mapIndexed { idx, app ->
-                            val existingItem = items.find { it.app == app }
-                            if (existingItem != null) {
-                                return@mapIndexed existingItem
-                            }
-
-                            return@mapIndexed LauncherAppListItemModel(
-                                order = -1,
-                                enabled = true,
-                                app = app,
-                            )
-                        }.sortedBy { it.order }
-
-                state.emit(
-                    LauncherAppListState.Synchronized(synchronizedItems),
-                )
-
-                update(items)
-                return@launch
-            }
-
-            state.emit(
-                LauncherAppListState.Failure(
-                    items = state.value.items,
-                    error = Error(deviceAppListResult.exceptionOrNull()),
-                ),
-            )
-        }
-    }
-
-    fun open(app: DeviceAppModel) {
-        scope.launch {
-            openApp(app)
-        }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory =
-            viewModelFactory {
-                initializer {
-                    LauncherAppListViewModel(
-                        openApp = locator.get(),
-                        getDeviceAppList = locator.get(),
-                        getLauncherAppList = locator.get(),
-                        updateLauncherAppList = locator.get(),
-                        scope = CoroutineScope(Dispatchers.Default),
-                    )
+                  return@mapIndexed LauncherAppListItemModel(
+                      order = -1,
+                      enabled = true,
+                      app = app,
+                  )
                 }
-            }
+                .sortedBy { it.order }
+
+        state.emit(
+            LauncherAppListState.Synchronized(synchronizedItems),
+        )
+
+        update(items)
+        return@launch
+      }
+
+      state.emit(
+          LauncherAppListState.Failure(
+              items = state.value.items,
+              error = Error(deviceAppListResult.exceptionOrNull()),
+          ),
+      )
     }
+  }
+
+  fun open(app: DeviceAppModel) {
+    scope.launch { openApp(app) }
+  }
+
+  companion object {
+    val Factory: ViewModelProvider.Factory = viewModelFactory {
+      initializer {
+        LauncherAppListViewModel(
+            openApp = locator.get(),
+            getDeviceAppList = locator.get(),
+            getLauncherAppList = locator.get(),
+            updateLauncherAppList = locator.get(),
+            scope = CoroutineScope(Dispatchers.Default),
+        )
+      }
+    }
+  }
 }

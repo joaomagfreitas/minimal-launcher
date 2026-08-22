@@ -17,27 +17,24 @@ fun AppScaffold(
     defaultPadding: PaddingValues = PaddingValues(16.dp),
     content: @Composable (() -> Unit),
 ) {
-    MinimalLauncherTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-        ) { innerPadding ->
-            Surface(
-                modifier =
-                    Modifier
-                        .padding(innerPadding)
-                        .padding(defaultPadding),
-                content = content,
-            )
-        }
+  MinimalLauncherTheme {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+    ) { innerPadding ->
+      Surface(
+          modifier = Modifier.padding(innerPadding).padding(defaultPadding),
+          content = content,
+      )
     }
+  }
 }
 
 @Composable
 @Preview
 fun AppScaffoldPreview() {
-    AppScaffold(
-        defaultPadding = PaddingValues(),
-    ) {
-        Text("Hello World")
-    }
+  AppScaffold(
+      defaultPadding = PaddingValues(),
+  ) {
+    Text("Hello World")
+  }
 }
