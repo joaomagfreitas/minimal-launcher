@@ -1,0 +1,22 @@
+complexity:
+  LongParameterList:
+    ignoreAnnotated:
+      - "Composable"
+  LongMethod:
+    threshold: 80
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - "Composable"
+      - "Preview"
+  PackageNaming:
+    packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9_]*)*'
+
+style:
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreAnnotated:
+      - "Preview"
+  UnusedPrivateMember:
+    ignoreAnnotated:
+      - "Preview"

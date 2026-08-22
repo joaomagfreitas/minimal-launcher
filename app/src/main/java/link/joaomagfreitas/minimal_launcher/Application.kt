@@ -21,7 +21,7 @@ class Application : Application() {
 
     locator.store(OpenApp(deviceRepository))
     locator.store(GetDeviceAppList(deviceRepository))
-    locator.store(GetLauncherAppList(deviceRepository, launcherRepository))
+    locator.store(GetLauncherAppList(launcherRepository))
     locator.store(UpdateLauncherAppList(launcherRepository))
   }
 }

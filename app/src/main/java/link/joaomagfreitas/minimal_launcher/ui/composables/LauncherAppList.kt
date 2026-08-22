@@ -3,7 +3,6 @@ package link.joaomagfreitas.minimal_launcher.ui.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
@@ -37,7 +36,6 @@ fun LauncherAppList(
     onUpdate: (items: List<LauncherAppListItemModel>) -> Unit,
     onRequestEditMode: () -> Unit,
     editMode: Boolean = false,
-    itemsCap: Int = 6,
 ) {
   val localItems = remember(items) { items.toMutableStateList() }
 
@@ -52,24 +50,12 @@ fun LauncherAppList(
         haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
       }
 
-  val style = MaterialTheme.typography.bodyLarge
-  val listItemsLimit = if (localItems.count() >= itemsCap) itemsCap else localItems.count()
-  val listTilePaddingHeight = 24 * 2
-  val labelHeight = style.fontSize.value
-  val itemsSpacing = 32
-
   LaunchedEffect(localItems) { onUpdate(localItems) }
 
   LazyColumn(
       state = state,
-      modifier =
-          Modifier.height(
-                  ((labelHeight + listTilePaddingHeight) * listItemsLimit +
-                          (itemsSpacing * listItemsLimit - 1))
-                      .dp
-              )
-              .fillMaxWidth(),
-      verticalArrangement = Arrangement.spacedBy(itemsSpacing.dp),
+      verticalArrangement = Arrangement.spacedBy(32.dp),
+      modifier = Modifier.fillMaxWidth(),
   ) {
     items(
         count = localItems.count(),
@@ -80,74 +66,24 @@ fun LauncherAppList(
               key = localItems[idx].hashCode(),
           ) {
             val item = localItems[idx]
-
-            ListItem(
-                headlineContent = {
-                  Text(
-                      text = item.app.label,
-                      style = style,
+            LauncherAppListItem(
+                item = item,
+                editMode = editMode,
+                onAdd = {
+                  localItems[idx] =
+                      item.copy(
+                          enabled = true,
+                      )
+                },
+                onRemove = {
+                  localItems.removeAt(idx)
+                  localItems.add(
+                      item.copy(
+                          order = localItems.count(),
+                          enabled = false,
+                      ),
                   )
                 },
-                leadingContent =
-                    if (editMode) {
-                      {
-                        if (item.enabled) {
-                          IconButton(
-                              onClick = {
-                                localItems.removeAt(idx)
-                                localItems.add(
-                                    item.copy(
-                                        order = localItems.count(),
-                                        enabled = false,
-                                    ),
-                                )
-                              },
-                          ) {
-                            Icon(
-                                painter = painterResource(R.drawable.do_not_disturb_on_24px),
-                                contentDescription =
-                                    stringResource(
-                                        id = R.string.content_description_delete_app_from_list
-                                    ),
-                                tint = danger,
-                            )
-                          }
-                        } else {
-                          IconButton(
-                              onClick = {
-                                localItems[idx] =
-                                    item.copy(
-                                        enabled = true,
-                                    )
-                              },
-                          ) {
-                            Icon(
-                                painter = painterResource(R.drawable.add_circle_24px),
-                                contentDescription =
-                                    stringResource(
-                                        id = R.string.content_description_add_app_to_list
-                                    ),
-                                tint = neutral,
-                            )
-                          }
-                        }
-                      }
-                    } else {
-                      null
-                    },
-                trailingContent =
-                    if (editMode) {
-                      {
-                        Icon(
-                            painter = painterResource(R.drawable.drag_handle_24px),
-                            contentDescription =
-                                stringResource(id = R.string.content_description_drag_app_in_list),
-                            tint = neutral,
-                        )
-                      }
-                    } else {
-                      null
-                    },
                 modifier =
                     Modifier.longPressDraggableHandle(
                             onDragStarted = {
@@ -176,6 +112,78 @@ fun LauncherAppList(
         },
     )
   }
+}
+
+@Composable
+private fun LauncherAppListItem(
+    item: LauncherAppListItemModel,
+    editMode: Boolean,
+    onAdd: () -> Unit,
+    onRemove: () -> Unit,
+    modifier: Modifier,
+) {
+  ListItem(
+      headlineContent = {
+        Text(
+            text = item.app.label,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+      },
+      leadingContent =
+          if (!editMode) null
+          else {
+            {
+              LauncherAppListItemLeading(
+                  item = item,
+                  onClick = {
+                    if (item.enabled) {
+                      onRemove()
+                    } else {
+                      onAdd()
+                    }
+                  },
+              )
+            }
+          },
+      trailingContent =
+          if (!editMode) null
+          else {
+            { LauncherAppListItemTrailing() }
+          },
+      modifier = modifier,
+  )
+}
+
+@Composable
+private fun LauncherAppListItemLeading(
+    item: LauncherAppListItemModel,
+    onClick: () -> Unit,
+) {
+  IconButton(onClick = onClick) {
+    if (item.enabled) {
+      Icon(
+          painter = painterResource(R.drawable.do_not_disturb_on_24px),
+          contentDescription =
+              stringResource(id = R.string.content_description_delete_app_from_list),
+          tint = danger,
+      )
+    } else {
+      Icon(
+          painter = painterResource(R.drawable.add_circle_24px),
+          contentDescription = stringResource(id = R.string.content_description_add_app_to_list),
+          tint = neutral,
+      )
+    }
+  }
+}
+
+@Composable
+private fun LauncherAppListItemTrailing() {
+  Icon(
+      painter = painterResource(R.drawable.drag_handle_24px),
+      contentDescription = stringResource(id = R.string.content_description_drag_app_in_list),
+      tint = neutral,
+  )
 }
 
 @Composable

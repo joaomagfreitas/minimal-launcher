@@ -18,8 +18,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import link.joaomagfreitas.minimal_launcher.ui.theme.neutral
 
+private const val MINUTE_IN_MS = 60_000L
+
 @Composable
-@Preview
 fun DateTimeDisplay() {
   var date by remember { mutableStateOf(Date()) }
   val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -28,7 +29,7 @@ fun DateTimeDisplay() {
   LaunchedEffect(Unit) {
     while (isActive) {
       val now = System.currentTimeMillis()
-      val delayUntilNextMinute = 60_000L - (now % 60_000L)
+      val delayUntilNextMinute = MINUTE_IN_MS - (now % MINUTE_IN_MS)
 
       delay(delayUntilNextMinute.milliseconds)
       date = Date()
@@ -47,4 +48,10 @@ fun DateTimeDisplay() {
         color = neutral,
     )
   }
+}
+
+@Composable
+@Preview
+private fun DateTimeDisplayPreview() {
+  DateTimeDisplay()
 }
