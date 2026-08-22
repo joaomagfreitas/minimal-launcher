@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.composables
+package link.joaomagfreitas.minimal_launcher.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

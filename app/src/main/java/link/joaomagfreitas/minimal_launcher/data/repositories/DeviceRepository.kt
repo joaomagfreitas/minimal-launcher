@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.repositories
+package link.joaomagfreitas.minimal_launcher.data.repositories
 
 import android.app.Activity
 import android.content.ComponentName
@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.PackageManager
-import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
+import link.joaomagfreitas.minimal_launcher.data.models.DeviceAppModel
 
 interface DeviceRepository {
     suspend fun queryApps(): List<DeviceAppModel>

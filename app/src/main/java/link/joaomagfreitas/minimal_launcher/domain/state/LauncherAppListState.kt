@@ -1,6 +1,6 @@
-package link.joaomagfreitas.minimal_launcher.state
+package link.joaomagfreitas.minimal_launcher.domain.state
 
-import link.joaomagfreitas.minimal_launcher.models.LauncherAppListItemModel
+import link.joaomagfreitas.minimal_launcher.data.models.LauncherAppListItemModel
 
 sealed class LauncherAppListState(
     open val items: List<LauncherAppListItemModel>

@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.models
+package link.joaomagfreitas.minimal_launcher.data.models
 
 import kotlinx.serialization.Serializable
 

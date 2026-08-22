@@ -1,10 +1,10 @@
-package link.joaomagfreitas.minimal_launcher.repositories
+package link.joaomagfreitas.minimal_launcher.data.repositories
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import link.joaomagfreitas.minimal_launcher.models.LauncherAppListItemModel
+import link.joaomagfreitas.minimal_launcher.data.models.LauncherAppListItemModel
 import java.io.File
 
 interface LauncherRepository {

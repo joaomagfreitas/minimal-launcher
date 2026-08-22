@@ -1,6 +1,5 @@
-package link.joaomagfreitas.minimal_launcher.viewmodels
+package link.joaomagfreitas.minimal_launcher.ui.viewmodels
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
@@ -10,13 +9,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import link.joaomagfreitas.minimal_launcher.di.locator
-import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
-import link.joaomagfreitas.minimal_launcher.models.LauncherAppListItemModel
-import link.joaomagfreitas.minimal_launcher.state.LauncherAppListState
-import link.joaomagfreitas.minimal_launcher.usecases.GetDeviceAppList
-import link.joaomagfreitas.minimal_launcher.usecases.GetLauncherAppList
-import link.joaomagfreitas.minimal_launcher.usecases.OpenApp
-import link.joaomagfreitas.minimal_launcher.usecases.UpdateLauncherAppList
+import link.joaomagfreitas.minimal_launcher.data.models.DeviceAppModel
+import link.joaomagfreitas.minimal_launcher.data.models.LauncherAppListItemModel
+import link.joaomagfreitas.minimal_launcher.domain.state.LauncherAppListState
+import link.joaomagfreitas.minimal_launcher.domain.usecases.GetDeviceAppList
+import link.joaomagfreitas.minimal_launcher.domain.usecases.GetLauncherAppList
+import link.joaomagfreitas.minimal_launcher.domain.usecases.OpenApp
+import link.joaomagfreitas.minimal_launcher.domain.usecases.UpdateLauncherAppList
 
 class LauncherAppListViewModel(
     private val openApp: OpenApp,

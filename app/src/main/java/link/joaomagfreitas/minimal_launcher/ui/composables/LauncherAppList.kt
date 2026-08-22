@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.composables
+package link.joaomagfreitas.minimal_launcher.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import link.joaomagfreitas.minimal_launcher.R
-import link.joaomagfreitas.minimal_launcher.models.DeviceAppModel
-import link.joaomagfreitas.minimal_launcher.models.LauncherAppListItemModel
+import link.joaomagfreitas.minimal_launcher.data.models.DeviceAppModel
+import link.joaomagfreitas.minimal_launcher.data.models.LauncherAppListItemModel
 import link.joaomagfreitas.minimal_launcher.ui.theme.danger
 import link.joaomagfreitas.minimal_launcher.ui.theme.neutral
 import sh.calvin.reorderable.ReorderableItem

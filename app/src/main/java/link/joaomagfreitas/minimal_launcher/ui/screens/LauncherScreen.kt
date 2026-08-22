@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.screens
+package link.joaomagfreitas.minimal_launcher.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,10 +11,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import link.joaomagfreitas.minimal_launcher.composables.AppScaffold
-import link.joaomagfreitas.minimal_launcher.composables.LauncherAppList
-import link.joaomagfreitas.minimal_launcher.composables.TopBar
-import link.joaomagfreitas.minimal_launcher.viewmodels.LauncherAppListViewModel
+import link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold
+import link.joaomagfreitas.minimal_launcher.ui.composables.LauncherAppList
+import link.joaomagfreitas.minimal_launcher.ui.composables.TopBar
+import link.joaomagfreitas.minimal_launcher.ui.viewmodels.LauncherAppListViewModel
 
 @Composable
 fun LauncherScreen(
