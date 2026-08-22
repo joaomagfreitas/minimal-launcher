@@ -5,3 +5,6 @@
 
 # Detekt
 ./gradlew detekt
+
+# Check formatting
+./gradlew ktfmtCheck

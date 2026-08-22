@@ -1,8 +1,6 @@
-package link.joaomagfreitas.minimal_launcher.composables
+package link.joaomagfreitas.minimal_launcher.ui.composables
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -19,26 +17,24 @@ fun AppScaffold(
     defaultPadding: PaddingValues = PaddingValues(16.dp),
     content: @Composable (() -> Unit),
 ) {
-    MinimalLauncherTheme {
-        Scaffold(
-            modifier = Modifier.fillMaxSize()
-        ) { innerPadding ->
-            Surface(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .padding(defaultPadding),
-                content = content
-            )
-        }
+  MinimalLauncherTheme {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+    ) { innerPadding ->
+      Surface(
+          modifier = Modifier.padding(innerPadding).padding(defaultPadding),
+          content = content,
+      )
     }
+  }
 }
 
 @Composable
 @Preview
 fun AppScaffoldPreview() {
-    AppScaffold(
-        defaultPadding = PaddingValues()
-    ) {
-        Text("Hello World")
-    }
+  AppScaffold(
+      defaultPadding = PaddingValues(),
+  ) {
+    Text("Hello World")
+  }
 }

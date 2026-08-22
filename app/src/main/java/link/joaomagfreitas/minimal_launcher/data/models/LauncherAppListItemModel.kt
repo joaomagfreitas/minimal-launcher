@@ -1,4 +1,4 @@
-package link.joaomagfreitas.minimal_launcher.models
+package link.joaomagfreitas.minimal_launcher.data.models
 
 import kotlinx.serialization.Serializable
 
@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class LauncherAppListItemModel(
     val order: Int,
     val enabled: Boolean,
-    val app: DeviceAppModel
+    val app: DeviceAppModel,
 )
