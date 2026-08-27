@@ -103,25 +103,25 @@ fun InlineState(
 @Preview
 @Composable
 private fun InlineStatePreview() {
-    _root_ide_package_.link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold {
-        InlineState(
-            icon =
-                InlineStateStateIconConfiguration(
-                    icon = R.drawable.add_circle_24px,
-                    contentDescription = "",
-                ),
-            title = "Title",
-            description = "Description",
-            primaryAction =
-                InlineStateStateActionConfiguration(
-                    label = "Primary",
-                    onClick = {},
-                ),
-            secondaryAction =
-                InlineStateStateActionConfiguration(
-                    label = "Secondary",
-                    onClick = {},
-                ),
-        )
-    }
+  _root_ide_package_.link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold {
+    InlineState(
+        icon =
+            InlineStateStateIconConfiguration(
+                icon = R.drawable.add_circle_24px,
+                contentDescription = "",
+            ),
+        title = "Title",
+        description = "Description",
+        primaryAction =
+            InlineStateStateActionConfiguration(
+                label = "Primary",
+                onClick = {},
+            ),
+        secondaryAction =
+            InlineStateStateActionConfiguration(
+                label = "Secondary",
+                onClick = {},
+            ),
+    )
+  }
 }

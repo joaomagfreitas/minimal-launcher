@@ -9,10 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.tooling.preview.Preview
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -23,8 +23,9 @@ private const val MINUTE_IN_MS = 60_000L
 @Composable
 fun DateTimeDisplay() {
   var date by remember { mutableStateOf(Date()) }
-  val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-  val dateFormatter = SimpleDateFormat("EEEE, MMM d", Locale.getDefault())
+  val locale = LocalLocale.current.platformLocale
+  val timeFormatter = SimpleDateFormat("HH:mm", locale)
+  val dateFormatter = SimpleDateFormat("EEEE, MMM d", locale)
 
   LaunchedEffect(Unit) {
     while (isActive) {
