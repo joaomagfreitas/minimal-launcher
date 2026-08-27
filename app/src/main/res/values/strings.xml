@@ -4,4 +4,8 @@
     <string name="content_description_delete_app_from_list">This action removes the app from the list</string>
     <string name="content_description_drag_app_in_list">This action drags the app in the list to reorder</string>
     <string name="content_description_exit_edit_mode">This action exists the edit mode</string>
+    <string name="content_description_no_apps_enabled">There are no apps enabled</string>
+    <string name="inline_state_no_apps_enabled_title">No Apps Enabled</string>
+    <string name="inline_state_no_apps_enabled_description"> Enable some apps to see them here</string>
+    <string name="inline_state_no_apps_enabled_primary_label">Edit Mode</string>
 </resources>

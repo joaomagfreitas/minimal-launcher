@@ -49,6 +49,10 @@ val Typography =
         bodyMedium =
             TextStyle(
                 fontFamily = hankenGroteskFontFamily,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                lineHeight = 24.sp,
+                letterSpacing = (-0.01).em,
             ),
         bodyLarge =
             TextStyle(
@@ -85,6 +89,10 @@ val Typography =
         labelLarge =
             TextStyle(
                 fontFamily = hankenGroteskFontFamily,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                lineHeight = 20.sp,
+                letterSpacing = 0.05.em,
             ),
         headlineSmall =
             TextStyle(
@@ -93,6 +101,10 @@ val Typography =
         headlineMedium =
             TextStyle(
                 fontFamily = hankenGroteskFontFamily,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Normal,
+                lineHeight = 40.sp,
+                letterSpacing = (-0.01).em,
             ),
         headlineLarge =
             TextStyle(

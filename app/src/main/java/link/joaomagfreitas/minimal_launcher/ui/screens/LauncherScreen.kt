@@ -14,6 +14,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold
 import link.joaomagfreitas.minimal_launcher.ui.composables.LauncherAppList
 import link.joaomagfreitas.minimal_launcher.ui.composables.TopBar
+import link.joaomagfreitas.minimal_launcher.ui.composables.state.NoAppsEnabledInlineState
 import link.joaomagfreitas.minimal_launcher.ui.viewmodels.LauncherAppListViewModel
 
 @Composable
@@ -35,13 +36,17 @@ fun LauncherScreen(
           onExitEditMode = { editMode = false },
       )
 
-      LauncherAppList(
-          editMode = editMode,
-          items = state.items,
-          onOpen = { viewModel.open(it.app) },
-          onUpdate = { viewModel.update(it) },
-          onRequestEditMode = { editMode = true },
-      )
+      if (!state.items.any { it.enabled }) {
+        NoAppsEnabledInlineState(onRequestEditMode = { editMode = true })
+      } else {
+        LauncherAppList(
+            editMode = editMode,
+            items = state.items,
+            onOpen = { viewModel.open(it.app) },
+            onUpdate = { viewModel.update(it) },
+            onRequestEditMode = { editMode = true },
+        )
+      }
     }
   }
 }
