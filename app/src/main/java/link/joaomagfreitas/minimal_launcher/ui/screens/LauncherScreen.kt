@@ -32,7 +32,6 @@ fun LauncherScreen(
     ) {
       TopBar(
           editMode = editMode,
-          onOpenSettings = {},
           onExitEditMode = { editMode = false },
       )
 
