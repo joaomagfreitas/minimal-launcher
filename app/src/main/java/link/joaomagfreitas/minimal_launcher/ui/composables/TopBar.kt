@@ -15,7 +15,6 @@ import link.joaomagfreitas.minimal_launcher.R
 @Composable
 fun TopBar(
     editMode: Boolean = false,
-    onOpenSettings: () -> Unit,
     onExitEditMode: () -> Unit,
 ) {
   Row(
@@ -28,16 +27,7 @@ fun TopBar(
           onClick = onExitEditMode,
       ) {
         Icon(
-            painter = painterResource(R.drawable.close_24px),
-            contentDescription = stringResource(R.string.content_description_exit_edit_mode),
-        )
-      }
-    } else {
-      IconButton(
-          onClick = onOpenSettings,
-      ) {
-        Icon(
-            painter = painterResource(R.drawable.settings_24px),
+            painter = painterResource(R.drawable.check_24px),
             contentDescription = stringResource(R.string.content_description_exit_edit_mode),
         )
       }
@@ -50,7 +40,7 @@ fun TopBar(
 fun TopBarPreview() {
   AppScaffold {
     TopBar(
-        onOpenSettings = {},
+        editMode = true,
         onExitEditMode = {},
     )
   }
