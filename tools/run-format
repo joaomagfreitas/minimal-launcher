@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-./gradlew ktfmtFormat
+tools="$(dirname "$0")"
+
+(
+  cd $tools/..
+  ./gradlew ktfmtFormat
+)

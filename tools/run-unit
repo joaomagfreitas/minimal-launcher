@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-./gradlew test
+tools="$(dirname "$0")"
+
+(
+  cd $tools/..
+  ./gradlew test
+)

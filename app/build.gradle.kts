@@ -4,6 +4,7 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.detekt)
   alias(libs.plugins.ktfmt)
+  id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {

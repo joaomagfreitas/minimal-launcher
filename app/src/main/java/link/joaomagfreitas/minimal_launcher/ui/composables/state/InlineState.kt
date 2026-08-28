@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import link.joaomagfreitas.minimal_launcher.R
+import link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold
 import link.joaomagfreitas.minimal_launcher.ui.theme.neutral
 
 data class InlineStateStateIconConfiguration(
@@ -103,7 +104,7 @@ fun InlineState(
 @Preview
 @Composable
 private fun InlineStatePreview() {
-  _root_ide_package_.link.joaomagfreitas.minimal_launcher.ui.composables.AppScaffold {
+  AppScaffold {
     InlineState(
         icon =
             InlineStateStateIconConfiguration(
