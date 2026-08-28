@@ -11,7 +11,6 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
@@ -37,7 +36,11 @@ fun LauncherAppList(
     onRequestEditMode: () -> Unit,
     editMode: Boolean = false,
 ) {
-  val localItems = remember(items) { items.toMutableStateList() }
+  val localItems =
+      remember(items, editMode) {
+        if (editMode) items.toMutableStateList()
+        else items.filter { it.enabled }.toMutableStateList()
+      }
 
   val haptic = LocalHapticFeedback.current
   val state = rememberLazyListState()
@@ -45,12 +48,11 @@ fun LauncherAppList(
       rememberReorderableLazyListState(
           lazyListState = state,
       ) { from, to ->
-        localItems.add(to.index, localItems.removeAt(from.index))
-
+        localItems.add(to.index, localItems.removeAt(from.index).copy(order = to.index))
         haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
-      }
 
-  LaunchedEffect(localItems) { onUpdate(localItems) }
+        onUpdate(localItems)
+      }
 
   LazyColumn(
       state = state,
@@ -74,22 +76,24 @@ fun LauncherAppList(
                       item.copy(
                           enabled = true,
                       )
+
+                  onUpdate(localItems)
                 },
                 onRemove = {
                   localItems.removeAt(idx)
                   localItems.add(
                       item.copy(
-                          order = localItems.count(),
+                          order = Int.MAX_VALUE,
                           enabled = false,
                       ),
                   )
+
+                  onUpdate(localItems)
                 },
                 modifier =
                     Modifier.longPressDraggableHandle(
                             onDragStarted = {
-                              if (!editMode) {
-                                onRequestEditMode()
-                              }
+                              onRequestEditMode()
 
                               haptic.performHapticFeedback(
                                   HapticFeedbackType.GestureThresholdActivate

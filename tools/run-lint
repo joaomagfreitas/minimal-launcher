@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-# Android lint
-./gradlew lint
+tools="$(dirname "$0")"
 
-# Detekt
-./gradlew detekt
+(
+  cd $tools/..
 
-# Check formatting
-./gradlew ktfmtCheck
+  # Android lint
+  ./gradlew lint
+
+  # Detekt
+  ./gradlew detekt
+
+  # Check formatting
+  ./gradlew ktfmtCheck
+)

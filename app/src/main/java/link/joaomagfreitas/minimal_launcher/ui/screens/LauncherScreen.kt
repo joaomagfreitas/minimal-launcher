@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,7 +35,7 @@ fun LauncherScreen(
           onExitEditMode = { editMode = false },
       )
 
-      if (!state.items.any { it.enabled }) {
+      if (!editMode && state.noAppsEnabled) {
         NoAppsEnabledInlineState(onRequestEditMode = { editMode = true })
       } else {
         LauncherAppList(
@@ -44,15 +43,12 @@ fun LauncherScreen(
             items = state.items,
             onOpen = { viewModel.open(it.app) },
             onUpdate = { viewModel.update(it) },
-            onRequestEditMode = { editMode = true },
+            onRequestEditMode = {
+              if (editMode) return@LauncherAppList
+              editMode = true
+            },
         )
       }
     }
   }
-}
-
-@Composable
-@Preview
-fun LauncherScreenPreview() {
-  LauncherScreen()
 }
