@@ -1,0 +1,2 @@
+[*.{kt,kts}]
+ignorePropertyDeclaration = true
